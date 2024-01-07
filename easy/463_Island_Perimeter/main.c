@@ -15,9 +15,9 @@ int islandPerimeter(int** grid, int gridSize, int* gridColSize) {
     // right
     if (c + 1 < col && grid[r][c+1] == 1) ret--;
     // up
-    if (r - 1 > 0   && grid[r-1][c] == 1) ret--;
+    if (r - 1 >= 0   && grid[r-1][c] == 1) ret--;
     // left
-    if (c - 1 > 0   && grid[r][c-1] == 1) ret--;
+    if (c - 1 >= 0   && grid[r][c-1] == 1) ret--;
 
    }
   }
