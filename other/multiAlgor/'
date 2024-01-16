@@ -1,0 +1,12 @@
+#include <stdio.h>
+
+int mul (int a, int b) {
+
+ while () {
+ }
+}
+
+int main () {
+ mul (5, 6);
+ return 0;
+}
