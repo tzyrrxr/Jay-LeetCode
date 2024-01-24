@@ -1,3 +1,4 @@
 all:
-	gcc -Wall main.c
-	./a.out
+	gcc -g -Wall main.c
+	./a.exe
+
