@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 #include <stdlib.h>
-#include <limits.h>
 
 char* convertToBase7(int num) {
  int base7 = 0;
@@ -10,12 +8,13 @@ char* convertToBase7(int num) {
  char *ret;
  int len;
 
- for (i = 1, len = 1; num; num/=7, i *= 10, len++) {
+ for (i = 1, len = 1; num; num /= 7, i *= 10, len++) {
   base7 = base7 + (num % 7) * i;
  }
- ret = (char*) calloc('\0', sizeof(char) * len);
+ // allocate space for the integer 
+ ret = (char*) malloc(sizeof(int) * len);
 
- itoa(base7, ret, 7);
+ sprintf(ret, "%d", base7);
  return ret;
 }
 
