@@ -5,33 +5,17 @@
 #include <limits.h>
 
 char* convertToBase7(int num) {
- char* ret = (char*) calloc ('\0', sizeof(char) * INT_MAX);
- bool neg = 0;
- int left, right;
- char tmp;
+ int base7 = 0;
+ int i;
+ char *ret;
+ int len;
 
- if (num < 0) {
-  num += 2 * num;
-  neg = 1;
+ for (i = 1, len = 1; num; num/=7, i *= 10, len++) {
+  base7 = base7 + (num % 7) * i;
  }
+ ret = (char*) calloc('\0', sizeof(char) * len);
 
- for (int i = 1; num; i++) {
-  ret[i] = (char)((num % 7) + 0x30);
-  num /= 7;
- }
-
- for (left = 1, right = strlen(ret); left < right; left++, right--) {
-  tmp = ret[left];
-  ret[left] = ret[right];
-  ret[right] = tmp;
- }
-
- if (neg) {
-  ret[0] = '-';
- } else {
-  ret += 1;
- }
-
+ itoa(base7, ret, 7);
  return ret;
 }
 
