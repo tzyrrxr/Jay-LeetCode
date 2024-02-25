@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /**
  * Note: The returned array must be malloced, assume caller calls free().
@@ -9,7 +11,7 @@ char** findRelativeRanks(int* score, int scoreSize, int* returnSize) {
  int order = 0;
  for (int i = 0; i < scoreSize; i++) {
   HashTable[score[i]] = (char*)calloc('\0', 15 * sizeof(char));
-  HashTable[score[i]] = '1';
+  HashTable[score[i]] = "1";
  }
 
  order++;
@@ -37,13 +39,16 @@ char** findRelativeRanks(int* score, int scoreSize, int* returnSize) {
   strcpy(ret[i], HashTable[score[i]]);
  }
 
- returnSize = scoreSize;
+ *returnSize = scoreSize;
  return ret;
     
 }
 
 
 int main (void) {
+ int rank[] = {1, 7, 8, 3, 2};
+ int retSize;
+ findRelativeRanks (rank, 5, &retSize);
 
  return 0;
 }
