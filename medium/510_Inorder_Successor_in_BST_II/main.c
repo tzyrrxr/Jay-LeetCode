@@ -20,7 +20,7 @@ struct Node* inorderSuccessor(struct Node* node) {
     // No right node.
     // Two cases:
     // case 1: This node is left node. Return parent's node
-    // case 2: This node is right node. Return the oldest parent's node if parent's node is right node.
+    // case 2: This node is right node. Return the oldest parent's node until parent's node is not right node anymore.
     
     // case 2
     while (node->parent && // level 1 node
