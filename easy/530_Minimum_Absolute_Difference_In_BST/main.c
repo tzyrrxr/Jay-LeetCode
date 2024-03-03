@@ -1,24 +1,21 @@
 #include <stdio.h>
 
-struct inorderTravel {
-  int val;
-  struct inorderTravel *next;
-};
 
-void CreateNodeAndLink (struct inorderTravel *node, int linkVal) {
-  struct inorderTravel *newNode = (struct inorderTravel *) malloc(sizeof(struct inorderTravel));
-  newNode->val = linkVal;
-  newNode->next = NULL;
-  while (node->next) node = node->next;
-  node->next = newNode;
-}
-
-void inOrderTravel(struct TreeNode *root, struct inorderTravel *nextNode) {
+void inOrderTravel(struct TreeNode *root, int *min, int *preVal) {
   if (!root) return;
 
-  inOrderTravel (root->left, nextNode);
-  CreateNodeAndLink (nextNode, root->val);
-  inOrderTravel (root->right, nextNode);
+  inOrderTravel (root->left, min, preVal);
+
+  if (*preVal != INT_MAX) {
+    if (*min > (root->val - *preVal)) {
+      *min = root->val - *preVal;
+    }
+    *preVal = root->val;
+  } else { // initial
+    *preVal = root->val;
+  }
+
+  inOrderTravel (root->right, min, preVal);
 }
 /**
  * Definition for a binary tree node.
@@ -30,20 +27,9 @@ void inOrderTravel(struct TreeNode *root, struct inorderTravel *nextNode) {
  */
 int getMinimumDifference(struct TreeNode* root) {
   int retMin = INT_MAX;
-  int diff = INT_MAX;
-  struct inorderTravel *first;
-  struct inorderTravel *pt = (struct inorderTravel *) malloc(sizeof(struct inorderTravel));
-  pt->next = NULL;
-  first = pt;
+  int preVal = INT_MAX;
 
-  inOrderTravel(root, pt);
-
-  while (first->next) {
-    diff = first->next->val - first->val;
-    retMin = retMin > diff ? diff : retMin;
-
-    first = first->next;
-  }
+  inOrderTravel (root, &retMin, &preVal);
 
   return retMin;
 }
