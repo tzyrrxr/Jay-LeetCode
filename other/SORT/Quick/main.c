@@ -9,8 +9,8 @@ void QuickSort(int *arr, int left, int right) {
 
   for (;sortOfLeftIndex <= sortOfRightIndex;) {
     // finding the exchange index
-    for (; sortOfLeftIndex <= right && arr[sortOfLeftIndex] < arr[pivotIndex];sortOfLeftIndex++);
-    for (;sortOfRightIndex >= left+1 && arr[sortOfRightIndex] > arr[pivotIndex];sortOfRightIndex--);
+    for (; sortOfLeftIndex <= right && arr[sortOfLeftIndex] <= arr[pivotIndex];sortOfLeftIndex++);
+    for (;sortOfRightIndex > left+1 && arr[sortOfRightIndex] >= arr[pivotIndex];sortOfRightIndex--);
     if (sortOfLeftIndex <= sortOfRightIndex) {
       arr[sortOfLeftIndex] = arr[sortOfLeftIndex] + arr[sortOfRightIndex];
       arr[sortOfRightIndex] = arr[sortOfLeftIndex] - arr[sortOfRightIndex];
