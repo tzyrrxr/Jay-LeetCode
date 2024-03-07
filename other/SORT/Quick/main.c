@@ -7,16 +7,17 @@ void QuickSort(int *arr, int left, int right) {
   int sortOfLeftIndex = left + 1;
   int sortOfRightIndex = right;
 
-  for (;sortOfLeftIndex < sortOfRightIndex;) {
+  for (;sortOfLeftIndex <= sortOfRightIndex;) {
+    // finding the exchange index
     for (; sortOfLeftIndex <= right && arr[sortOfLeftIndex] < arr[pivotIndex];sortOfLeftIndex++);
-    for (;sortOfRightIndex > left && arr[sortOfRightIndex] > arr[pivotIndex];sortOfRightIndex--);
-    if (sortOfLeftIndex < sortOfRightIndex) {
+    for (;sortOfRightIndex >= left+1 && arr[sortOfRightIndex] > arr[pivotIndex];sortOfRightIndex--);
+    if (sortOfLeftIndex <= sortOfRightIndex) {
       arr[sortOfLeftIndex] = arr[sortOfLeftIndex] + arr[sortOfRightIndex];
       arr[sortOfRightIndex] = arr[sortOfLeftIndex] - arr[sortOfRightIndex];
       arr[sortOfLeftIndex] = arr[sortOfLeftIndex] - arr[sortOfRightIndex];
     }
   }
-  // change pivot value and meet index
+  // exchange pivot value and meet index
   arr[left] = arr[left] + arr[sortOfRightIndex];
   arr[sortOfRightIndex] = arr[left] - arr[sortOfRightIndex];
   arr[left] = arr[left] - arr[sortOfRightIndex];
