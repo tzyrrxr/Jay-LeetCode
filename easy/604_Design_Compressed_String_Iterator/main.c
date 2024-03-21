@@ -22,16 +22,44 @@ typedef struct {
 
 
 StringIterator* stringIteratorCreate(char* compressedString) {
-    
-}
+ StringIterator *ret = (StringIterator *) malloc (sizeof(StringIterator));
 
-char stringIteratorNext(StringIterator* obj) {
-    
+ ret->inputStr = compressedString;
+ ret->strIndex = 0;
+
+ ret->probeChar = ' ';
+ ret->probeCharCount = 0;
+
+ return ret;
 }
 
 bool stringIteratorHasNext(StringIterator* obj) {
- return obj->strIndex < strlen(obj->inputStr) || obj->probeCharCount > 0
+ return obj->strIndex < strlen(obj->inputStr) || obj->probeCharCount > 0;
 }
+
+char stringIteratorNext(StringIterator* obj) {
+ if (!stringIteratorHasNext(obj)) return ' ';
+
+
+ if (obj->probeCharCount == 0) {
+
+  obj->probeChar = obj->inputStr[obj->strIndex++];
+
+  int digitNum = 0;
+  while (obj->strIndex < strlen(obj->inputStr) && isdigit(obj->inputStr[obj->strIndex])) {
+   digitNum *= 10;
+   digitNum += obj->inputStr[obj->strIndex] - '0';
+   obj->strIndex++;
+  }
+
+  obj->probeCharCount = digitNum;
+ }
+
+ obj->probeCharCount--;
+
+ return obj->probeChar;
+}
+
 
 void stringIteratorFree(StringIterator* obj) {
  free(obj);
