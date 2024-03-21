@@ -9,12 +9,15 @@
  * [null, "L", "e", "e", "t", "C", "o", true, "d", true]
  *
  *
- * Thinking:
- * Input the first array is command to call function. The second array is result to output.
 */
 
 typedef struct {
- char *s;
+ char *inputStr; 
+ int strIndex;
+
+ char probeChar;
+ int  probeCharCount;
+ 
 } StringIterator;
 
 
@@ -27,11 +30,11 @@ char stringIteratorNext(StringIterator* obj) {
 }
 
 bool stringIteratorHasNext(StringIterator* obj) {
-    
+ return obj->strIndex < strlen(obj->inputStr) || obj->probeCharCount > 0
 }
 
 void stringIteratorFree(StringIterator* obj) {
-    
+ free(obj);
 }
 
 /**
