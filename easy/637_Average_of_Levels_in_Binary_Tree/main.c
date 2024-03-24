@@ -1,5 +1,22 @@
 #include <stdio.h>
 
+struct Node {
+ int val;
+ struct Node* next;
+ struct TreeNode *treeNode;
+};
+
+struct Node* CreateNode (int val) {
+ struct Node* ret;
+ ret->val = val;
+ ret->next = NULL;
+ return ret;
+}
+
+void FreeNode (struct Node* node) {
+ free(node);
+}
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -12,38 +29,49 @@
  * Note: The returned array must be malloced, assume caller calls free().
  */
 double* averageOfLevels(struct TreeNode* root, int* returnSize) {
- struct TreeNode* queue[10000];
- int queueIndex = -1;
- double *ret = (double *) malloc(10000 * sizeof(double));
+ struct Node *pt;
+ struct Node *first;
+ double *ret = (double *) malloc(1000 * sizeof(double));
+ int len;
+ int tmpSum;
+ struct Node *lastPt;
 
- queue[++queueIndex] = root;
+ // init root
+ pt = CreateNode(root->val);
+ pt->treeNode = root;
+ len = 1;
  *returnSize = 0;
- int levelSize = 1;
- int inputCount;
+ lastPt = pt;
 
- while (queueIndex >= 0) {
-  int levelSum = 0;
-  struct TreeNode *currPt;
-  inputCount = 0;                   
+ while (len) {
 
-  for (int i = queueIndex; i < queueIndex + levelSize; i++) {
-   currPt = queue[i]; // mark item pointer
+  struct TreeNode *currNode = pt->treeNode;
 
-   if (currPt->left) {
-    queue[queueIndex+i] = currPt->left; // prepare next level item
-    inputCount++;                                    
-   }
-   if (currPt->right) {
-    queue[queueIndex+i] = currPt->right; // prepare next level item
-    inputCount++;                                    
-   }
-                                                           
-   levelSum += currPt->val;
+  len = 0;
+  // calculate link list length and mark the last pointer
+  for (struct Node* tmpPt = lastPt; tmpPt; tmpPt = tmpPt->next) {
+   len++;
+   lastPt = tmpPt;
   }
 
-  levelSize = inputCount;
-  // insert average item.
-  ret[(*returnSize)++] = (double) levelSum / levelSize;
+  for (int i = 0; i < len; i++) {
+   tmpSum += pt->val;
+   pt = pt->next;
+   if (currNode->left) {
+    lastPt->next = CreateNode(currNode->left->val);
+    lastPt->next->treeNode = currNode->left;
+    lastPt = lastPt->next;
+   }
+
+   if (currNode->right) {
+    lastPt->next = CreateNode(currNode->right->val);
+    lastPt->next->treeNode = currNode->right;
+    lastPt = lastPt->next;
+   }
+
+  }
+
+  ret[(*returnSize)++] = (double) tmpSum / len;
  }
 
  return ret;
