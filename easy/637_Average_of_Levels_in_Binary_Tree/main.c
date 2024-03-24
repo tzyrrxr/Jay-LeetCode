@@ -1,22 +1,5 @@
 #include <stdio.h>
 
-struct Node {
- int val;
- struct Node* next;
- struct TreeNode *treeNode;
-};
-
-struct Node* CreateNode (int val) {
- struct Node* ret;
- ret->val = val;
- ret->next = NULL;
- return ret;
-}
-
-void FreeNode (struct Node* node) {
- free(node);
-}
-
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -29,49 +12,38 @@ void FreeNode (struct Node* node) {
  * Note: The returned array must be malloced, assume caller calls free().
  */
 double* averageOfLevels(struct TreeNode* root, int* returnSize) {
- struct Node *pt;
- struct Node *first;
- double *ret = (double *) malloc(1000 * sizeof(double));
- int len;
- int tmpSum;
- struct Node *lastPt;
+ double* ret = (double *) malloc (100 * sizeof(double));
 
- // init root
- pt = CreateNode(root->val);
- pt->treeNode = root;
- len = 1;
+ struct TreeNode* queue[10000];
+ struct TreeNode* pt;
+ int start, end;
+ int sum;
+
+ queue[0] = root;
+ start = 0;
+ end = 1;
+
  *returnSize = 0;
- lastPt = pt;
+ while (end != start) {
+  int endOfLevel = end;
+  int count = endOfLevel - start;
 
- while (len) {
+  for (sum = 0; start < endOfLevel; start++) {
 
-  struct TreeNode *currNode = pt->treeNode;
+   pt = queue[start];
 
-  len = 0;
-  // calculate link list length and mark the last pointer
-  for (struct Node* tmpPt = lastPt; tmpPt; tmpPt = tmpPt->next) {
-   len++;
-   lastPt = tmpPt;
-  }
+   sum += pt->val;
 
-  for (int i = 0; i < len; i++) {
-   tmpSum += pt->val;
-   pt = pt->next;
-   if (currNode->left) {
-    lastPt->next = CreateNode(currNode->left->val);
-    lastPt->next->treeNode = currNode->left;
-    lastPt = lastPt->next;
+   if (pt->left) {
+    queue[end++] = pt->left;
    }
-
-   if (currNode->right) {
-    lastPt->next = CreateNode(currNode->right->val);
-    lastPt->next->treeNode = currNode->right;
-    lastPt = lastPt->next;
+   if (pt->right) {
+    queue[end++] = pt->right;
    }
 
   }
+  ret[(*returnSize)++] = (double) sum / count;
 
-  ret[(*returnSize)++] = (double) tmpSum / len;
  }
 
  return ret;
