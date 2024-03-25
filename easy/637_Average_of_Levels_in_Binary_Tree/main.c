@@ -12,12 +12,12 @@
  * Note: The returned array must be malloced, assume caller calls free().
  */
 double* averageOfLevels(struct TreeNode* root, int* returnSize) {
- double* ret = (double *) malloc (100 * sizeof(double));
+ double* ret = (double *) malloc (1000 * sizeof(double));
 
  struct TreeNode* queue[10000];
  struct TreeNode* pt;
  int start, end;
- int sum;
+ double sum;
 
  queue[0] = root;
  start = 0;
@@ -43,6 +43,13 @@ double* averageOfLevels(struct TreeNode* root, int* returnSize) {
 
   }
   ret[(*returnSize)++] = (double) sum / count;
+
+  // move
+  for (int i = start; i <= end; i++) {
+   queue[i-count] = queue[i];
+  }
+  start -= count;
+  end   -= count;
 
  }
 
