@@ -1,18 +1,37 @@
 #include <stdio.h>
+#include <stdbool.h>
 
-void infixAddPad (struct TreeNode* node, int k, int *pad, int *padIndex) {
+struct TreeNode {
+ int val;
+ struct TreeNode *left;
+ struct TreeNode *right;
+};
+
+void prefixAddPad (struct TreeNode* node, int k, int *pad, int *padIndex) {
  if (!node) return;
- infixAddPad (node->left, k, pad, padIndex);
- pad[padIndex++] = k - node->val;
- pad = (int*) realloc(pad, padIndex);
- infixAddPad (node->right, k, pad, padIndex);
+ pad[(*padIndex)++] = k - node->val;
+ pad = (int*) realloc(pad, (*padIndex + 1) * sizeof(int));
+
+ prefixAddPad (node->left, k, pad, padIndex);
+ prefixAddPad (node->right, k, pad, padIndex);
 }
 
-void infix (struct TreeNode* node, int *pad, int *padSize) {
- if (!node) return;
- infix (node->left, pad, padSize);
- infix (node->right, pad, padSize);
+bool infix (struct TreeNode* node, int *pad, int *padSize) {
+ if (!node) return false;
+ bool ret = false;
+
+ ret = infix (node->left, pad, padSize);
+ for (int i = 0; i < *padSize; i++) {
+  if (pad[i] == node->val) {
+   ret = true;
+   break;
+  }
+ }
+ ret = infix (node->right, pad, padSize) || ret;
+
+ return ret;
 }
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -25,13 +44,18 @@ bool findTarget(struct TreeNode* root, int k) {
  int *pad = (int *) malloc(sizeof(int));
  int padIndex = 0;
  bool ret = false;
- infixAddPad (root, k, pad, &padIndex);
 
+ prefixAddPad (root, k, pad, &padIndex);
 
- 
+ ret = infix (root, pad, &padIndex);
+
+ return ret;
 }
 
 int main (void) {
+
+ int arr[] = [5,3,6,2,4,null,7];
+ findTarget (arr);
 
  return 0;
 }
