@@ -1,17 +1,18 @@
 #include <stdio.h>
 
-void infix (struct TreeNode* node, int *min, int *secMin) {
+void infix (struct TreeNode* node, int *min, int *secMin, bool *mm, bool *ms) {
  if (!node) return;
 
- if (*min > node->val) {
+ if (*min >= node->val) {
   *min = node->val;
- }
- if (*minSec > node->val && *min > node->val) {
-  *minSec = node->val;
+  *mm = true;
+ } else if (*secMin >= node->val && *min < node->val) {
+  *secMin = node->val;
+  *ms = true;
  }
 
- infix(root->left, min, secMin);
- infix(root->right, min, secMin);
+ infix(node->left, min, secMin, mm, ms);
+ infix(node->right, min, secMin, mm, ms);
 
 }
 /**
@@ -24,8 +25,12 @@ void infix (struct TreeNode* node, int *min, int *secMin) {
  */
 int findSecondMinimumValue(struct TreeNode* root) {
  int min, secMin;
- min = secMin = INT_MIN;
- infix (root, &min, &secmIN);
+ bool mm, ms;
+ mm = ms = false;
+ min = secMin = INT_MAX;
+ infix (root, &min, &secMin, &mm, &ms);
+ if (!mm || !ms) return -1;
+ return secMin;
 }
 
 int main (void) {
