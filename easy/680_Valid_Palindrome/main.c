@@ -1,34 +1,29 @@
 #include <stdio.h>
 
-bool simplePalindrome (char *s) {
- int l, r;
+bool simplePalindrome (char *s, int l, int r) {
 
- for (l = 0, r = strlen(s)-1; l<=r; l++, r--) {
+ while (l <= r) {
   if (s[l] != s[r]) return false;
+  l++; r--;
  }
 
  return true;
 }
 
 bool validPalindrome(char* s) {
- bool ret;
+ int l, r;
 
- ret = simplePalindrome (s);
- if (!ret) {
-  for (int i = 0; i < strlen(s); i++) {
-   char *tmp = (char *) calloc (strlen(s) + 1, sizeof(char));
-   memcpy(tmp, s, strlen(s));
-   for (int j = i; j < strlen(s)-1; j++) {
-    tmp[j] = tmp[j+1];
-   }
-   tmp[strlen(s)-1] = '\0';
-   ret = simplePalindrome(tmp);
-   free(tmp);
-   if (ret) break;
+ l = 0;
+ r = strlen(s) - 1;
+
+ while (l <= r) {
+  if (s[l] != s[r]) {
+   return simplePalindrome (s, l+1, r) || simplePalindrome (s, l, r-1);
   }
+  l++; r--;
  }
 
- return ret;
+ return true;
 }
 
 int main (void) {
