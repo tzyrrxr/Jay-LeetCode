@@ -43,7 +43,7 @@ int lengthOfLongestSubstringTwoDistinct(char* s) {
    ret = ret < ht[stack[0]] + ht[stack[1]] ? ht[stack[0]] + ht[stack[1]] : ret;
    ht[stack[0]] = 0;
    // calculate the previous character.
-   //for (j = i-1, ht[prev] = 0; s[j] == prev && j >= 0; ht[prev]++);
+   for (j = i-1, ht[prev] = 0; s[j] == prev && j >= 0; ht[prev]++, j--);
    stack[0] = prev;
    stack[1] = curr;
    ht[stack[1]]++;
