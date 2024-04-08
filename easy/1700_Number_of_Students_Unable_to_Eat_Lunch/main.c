@@ -14,12 +14,10 @@ int countStudents(int* students, int studentsSize, int* sandwiches, int sandwich
    students[i] = -1;
    edge = 0;
   } else if (students[i] != -1){
-   edge++;
+   if (++edge == remain) return remain;
   }
 
-  if (edge == remain) return remain;
-  i++;
-  if (i >= studentsSize) i = 0;
+  if (++i >= studentsSize) i = 0;
  }
 
  return remain;
