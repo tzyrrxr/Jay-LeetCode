@@ -1,38 +1,54 @@
 #include <stdio.h>
 
-struct position {
- int x;
- int y;
-} ;
 
-struct position * CreateNode () {
- struct position *tmp = (struct position*) malloc(sizeof (struct position));
- return tmp;
+bool DFS(char** board, int x, int y, char *w, int wP) {
+ int len = strlen(w);
+ if (wP >= len) return true;
+
+ // define direction
+ int dx[] = {0, 1,  0, -1}
+ int dy[] = {1, 0, -1,  0};
+
+ char tmp;
+ bool ret = flase;
+
+ for (int d = 0; d < 4; d++) {
+  // checking the wall
+  if () {
+  }
+
+  // checking character
+  if (w[wP] == board[x][y]) {
+   tmp = board[x][y];
+   board[x][y] = '-';
+   ret = true && DFS (board, x+dx[d], y+dy[d], w, wP+1);
+   board[x][y] = tmp;
+  }
+ }
+
+ return ret;
+
 }
-
-// stack problem is like as mouse maze
+// stack problem 
+// similar mouse maze 
 bool exist(char** board, int boardSize, int* boardColSize, char* word) {
  int len = strlen(word);
+ int wP = 0; // word pointer
  int top = -1;
- struct position *posStack = (struct position*) malloc(len * sizeof (struct position));
+ bool ret = false;
 
  for (int i = 0; i < boardSize; i++) {
   for (int j = 0; j < boardColSize; j++) {
-   if (*word == board[i][j]) {
-    // mark first character
-    posStack[++top] = CreateNode ();
-    posStack[++top]->x = i;
-    posStack[++top]->y = j;
+   if (board[i][j] == *word) {
+    // Depth First Search
+    ret = DFS (board, i, j, word, wP+1);
 
-    // right
-    // down
-    // left
-    // top
-    
+    if (ret) return ret; // Exist
    }
   }
  }
     
+ return ret;
 }
 
 int main (void) {
