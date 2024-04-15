@@ -1,19 +1,20 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-void DFS (struct TreeNode* node, int *s, int top, int *sum) {
+void DFS (struct TreeNode* node, char *s, int top, int *sum) {
  if (!node) return;
 
- s[++top] = node->val;
+ s[++top] = 0x30 + node->val;
 
  // Is leaf node?
  if (!node->left && !node->right) {
-  int val = 0;
-  for (int i = 0; i < top+1; i++) val = 10*val + s[i];
-  *sum += val;
+  s[top+1] = '\0';
+  *sum += atoi(s);
  }
  DFS(node->left, s, top, sum);
  DFS(node->right, s, top, sum);
 }
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -24,7 +25,7 @@ void DFS (struct TreeNode* node, int *s, int top, int *sum) {
  */
 int sumNumbers(struct TreeNode* root) {
  int ret = 0;
- int stack[1001] = {0};
+ char stack[1001] = {0};
  int top = -1;
  DFS(root, stack, top, &ret);
     
