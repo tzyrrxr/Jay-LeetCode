@@ -15,16 +15,33 @@ void DFS (struct TreeNode *node, int nDepth, int val, int tDepth) {
  if (!node) return;
 
  if (nDepth+1 == tDepth) {
-  // _
-  if (!node->left && !node->right) {
+  if (!node->left && !node->right) { /* _ */
    node->left = CreateNode(val);
    node->right = CreateNode(val);
+  } else if (node->left && node->right) { /* /\ */
+   struct TreeNode *tmp;
+   tmp = node->left;
+   node->left = CreateNode(val);
+   node->left->left = tmp;
+
+   tmp = node->right;
+   node->right = CreateNode(val);
+   node->right->right = tmp;
+  } else if (node->left && !node->right) { /* / */
+   struct TreeNode *tmp;
+   tmp = node->left;
+   node->left = CreateNode(val);
+   node->left->left = tmp;
+
+   node->right = CreateNode(val);
+  } else if (!node->left && node->right) { /* \ */
+   struct TreeNode *tmp;
+   tmp = node->right;
+   node->right = CreateNode(val);
+   node->right->right = tmp;
+
+   node->left = CreateNode(val);
   }
-  /* /\ */
-  if (node->left && node->right) {
-  }
-  /* / */
-  /* \ */
  }
 
  DFS(node->left, nDepth+1, val, tDepth);
@@ -41,7 +58,17 @@ void DFS (struct TreeNode *node, int nDepth, int val, int tDepth) {
  * };
  */
 struct TreeNode* addOneRow(struct TreeNode* root, int val, int depth) {
+ struct TreeNode *ret;
+ ret = root;
+
+ if (depth == 1) {
+  ret = CreateNode(val);
+  ret->left = root;
+ } else {
+  DFS(ret, 1, val, depth);
+ }
     
+ return ret;
 }
 
 int main (void) {
