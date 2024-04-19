@@ -3,9 +3,13 @@
 void DFS (struct TreeNode* node, char *nowStr, char* smStr) {
  if (!node) return;
 
+
  int len = strlen(nowStr); // The nowStr is a reversed string.
- char s[len+2];
- strcpy(s, nowStr);
+                           
+ //char *s = (char *) calloc(len+2, sizeof(char));
+ char s[200] = {0};
+
+ strncpy(s, nowStr, len);
  s[len] = (char) (node->val + 'a');
 
  int i, j;
@@ -16,24 +20,40 @@ void DFS (struct TreeNode* node, char *nowStr, char* smStr) {
   s[j] = tmp;
  }
 
- s[len+1] = '\0';
+ //s[len+1] = '\0';
 
  // Is a leaf?
  int wS, wSm;
  if (!node->left && !node->right) {
-  if (smStr == "") {
-   strcpy(smStr, s);
-   smStr[strlen(s)] = '\0'
+  len = strlen(s);
+  if (*smStr == '\0') {
+   strncpy(smStr, s, len);
+   smStr[len] = '\0';
   } else {
    wS = 0;
    wSm = 0;
 
-   for (int x = 0; x < strlen(s); x++) wS = wS*2 + s[x];
-   for (int y = 0; y < strlen(smStr); y++) wSm = wSm*2 + s[y];
+   bool compare = false;
 
-   if (wS < wSm) {
-    strcpy(smStr, s);
-    smStr[strlen(s)] = '\0'
+   for (int i = 0; s[i] && smStr[i]; i++) {
+    if (s[i] == smStr[i]) {
+     continue;
+    } else if (s[i] < smStr[i]) {
+     compare = true;
+     break;
+    } else {
+     compare = false;
+     break;
+    }
+   }
+
+   tmp = strlen(s) < strlen(smStr) ? strlen(s) : strlen(smStr);
+   for (int x = 0; x < tmp && compare; x++) wS = wS*26 + s[x];
+   for (int y = 0; y < tmp && compare; y++) wSm = wSm*26 + smStr[y];
+
+   if (wS <= wSm && compare) {
+    strncpy(smStr, s, len);
+    smStr[len] = '\0';
    }
   }
 
@@ -48,6 +68,8 @@ void DFS (struct TreeNode* node, char *nowStr, char* smStr) {
  DFS (node->left, s, smStr);
  DFS (node->right, s, smStr);
 
+ //free(s);
+
 }
 /**
  * Definition for a binary tree node.
@@ -58,8 +80,7 @@ void DFS (struct TreeNode* node, char *nowStr, char* smStr) {
  * };
  */
 char* smallestFromLeaf(struct TreeNode* root) {
- char *ret = (char*) malloc(8501 * sizeof(char));
- ret[0] = '\0';
+ char *ret = (char*) calloc(8501, sizeof(char));
     
  DFS (root, "", ret);
 
