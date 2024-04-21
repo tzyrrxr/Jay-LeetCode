@@ -24,15 +24,15 @@ bool validPath(int n, int** edges, int edgesSize, int* edgesColSize, int source,
  int m = 0;
  if (n / edgesSize > 10000) m = 100;
  else if (n >= 20000) m = 300;
- else if (n > 10000) m = 1000;
- else m = 3000;
+ else if (n > 10000) m = 500;
+ else m = 800;
 
  int **path;
  int ret = false;
  int u, v;
  int *visited;
  path = (int**) calloc(n, sizeof(int*));
- for (int i = 0; i < n; i++) path[i] = (int*) calloc( m, sizeof(int));
+ for (int i = 0; i < n; i++) path[i] = (int*) calloc(m, sizeof(int));
 
 
  // record edges
@@ -52,7 +52,6 @@ bool validPath(int n, int** edges, int edgesSize, int* edgesColSize, int source,
     
  return ret;
 }
-
 int main (void) {
 
  return 0;
