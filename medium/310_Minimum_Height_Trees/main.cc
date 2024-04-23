@@ -1,6 +1,6 @@
 #include <iostream>
 
-using namespece std;
+using namespace std;
 
 int main () {
 
