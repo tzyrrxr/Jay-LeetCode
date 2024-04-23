@@ -1,10 +1,11 @@
 #include <stdio.h>
 
-int *Front(int* q, int top) {
+int Front(int* q, int top) {
  int tmp = q[0];
  for (int i = 0; i < top; i++) q[i] = q[i+1];
  return tmp;
 }
+
 /**
  * Note: The returned array must be malloced, assume caller calls free().
  */
@@ -17,7 +18,7 @@ int* findMinHeightTrees(int n, int** edges, int edgesSize, int* edgesColSize, in
   ret[++rear] = 0;
   return ret;
  }
- int deg[n] = 0;
+ int *deg = (int*) calloc(n, sizeof(int));
 
  int **path = (int**) malloc(n * sizeof(int*));
  *path = (int*) calloc(n, sizeof(int));
@@ -47,12 +48,25 @@ int* findMinHeightTrees(int n, int** edges, int edgesSize, int* edgesColSize, in
  }
 
  while (rear >= 0) {
-  int tmp = Front(queue, rear);
-  rear--;
- }
+  
+  int size = rear + 1;
+  for (int i = 0; i < size; i++) {
+   int tmp = Front(queue, rear);
+   int top;
+   int val;
+   rear--;
+   top = path[tmp][0];
+   path[tmp][0]--;
+   val = path[tmp][top];
+   deg[val]--;
+   if (deg[val] == 1) queue[++rear] = val;
+  }
 
+  *returnSize = rear+1;
+
+ }
     
- return ret;
+ return queue;
 }
 
 int main (void) {
