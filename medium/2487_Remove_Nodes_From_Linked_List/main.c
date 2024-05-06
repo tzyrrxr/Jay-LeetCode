@@ -29,6 +29,8 @@ struct ListNode* removeNodes(struct ListNode* head) {
  for (int i = 0; i < top; i++) {
   s[i]->next = s[i+1];
  }
+ s[top]->next = NULL;
+ free(s);
 
  return ret;
 }
