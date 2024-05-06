@@ -16,12 +16,6 @@ struct ListNode* removeNodes(struct ListNode* head) {
  pt = head;
  while (pt) {
 
-  if (top == -1) {
-   s[++top] = pt;
-   pt = pt->next;
-   continue;
-  } 
-
   while (top > -1 && s[top]->val < pt->val) {
    top--;
   }
