@@ -95,10 +95,10 @@ void QuickSort_V1(int *arr, int left, int right) {
 int main (void) {
 
   // test
-  int arr[] = {6,2,6,5,1,2};
+  int arr[] = {8,574,954,651,873};
   //QuickSort_V1 (arr, 0, 5);
   //QS_inc (arr, 0, 5);
-  QS_dec (arr, 0, 5);
+  QS_dec (arr, 0, 4);
   puts("done");
 
   return 0;
