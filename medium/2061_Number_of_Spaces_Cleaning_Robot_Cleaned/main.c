@@ -29,16 +29,17 @@ int numberOfCleanRooms(int** room, int roomSize, int* roomColSize) {
   dy = dir[d][1];
 
   while (1) {
-   if (CheckValid(x+dx, y+dy, rows, cols) && room[y+dy][x+dx] == 0) {
-    move++;
-    room[y+dy][x+dx] = -1;
+   if (CheckValid(x+dx, y+dy, rows, cols) && room[y+dy][x+dx] != 1) {
+
+    if (room[y+dy][x+dx] != -1) {
+     move++;
+     limits = 0;
+     room[y+dy][x+dx] = -1;
+    }
     x += dx;
     y += dy;
-    limits = 0;
-   } else if (CheckValid(x+dx, y+dy, rows, cols) && room[y+dy][x+dx] == -1){
-    limits = 5;
-    break;
-   } else {
+
+   } else if (CheckValid(x+dx, y+dy, rows, cols) == false || room[y+dy][x+dx] == 1){
     d++;
     limits++;
     break;
