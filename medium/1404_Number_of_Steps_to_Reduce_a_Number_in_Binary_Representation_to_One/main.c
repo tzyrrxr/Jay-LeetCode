@@ -10,7 +10,7 @@ int numSteps(char* s) {
   if ((s[i] - '0' + carry) % 2 == 0) {
    steps++;
   } else {
-   carry  = 1;
+   carry  = 1; // this carry add into s[i]. Hence, s[i] is 0 and pass 1 to next left bit
    steps += 2;
   }
  }
