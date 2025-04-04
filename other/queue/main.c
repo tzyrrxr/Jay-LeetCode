@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h> 
+
 typedef struct {
 
   int *arr;
@@ -28,11 +32,15 @@ bool myCircularQueueEnQueue(MyCircularQueue* obj, int value) {
   if (obj->count == obj->size) return false;
     
   if (obj->head == -1) obj->head = 0;
-  obj->tail = (++obj->tail) % obj->size;
-  obj->arr[obj->tail] = value;
-  obj->count++;
+  if (!obj) {
+   obj->tail = (++obj->tail) % obj->size;
+   obj->arr[obj->tail] = value;
+   obj->count++;
+   return true;
+  }
 
-  return true;
+  return false;
+
 }
 
 bool myCircularQueueDeQueue(MyCircularQueue* obj) {
@@ -83,4 +91,8 @@ void myCircularQueueFree(MyCircularQueue* obj) {
  
  * myCircularQueueFree(obj);
 */
+
+int main () {
+ return 0;
+}
 
