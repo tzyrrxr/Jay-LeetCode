@@ -1,14 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 typedef struct {
 
   int *arr;
   int head;
   int tail;
   int size;
-  int capacity;
+  int count;
 
 } MyCircularQueue;
 
@@ -21,7 +17,7 @@ MyCircularQueue* myCircularQueueCreate(int k) {
   ret->head = -1;
   ret->tail = -1;
   ret->size = k;
-  ret->capacity = k;
+  ret->count = 0;
 
   return ret;
 
@@ -29,43 +25,44 @@ MyCircularQueue* myCircularQueueCreate(int k) {
 
 bool myCircularQueueEnQueue(MyCircularQueue* obj, int value) {
   
-  if (obj->capacity + 1 > obj->size) return false;
+  if (obj->count == obj->size) return false;
     
   if (obj->head == -1) obj->head = 0;
   obj->tail = (++obj->tail) % obj->size;
   obj->arr[obj->tail] = value;
-  obj->capacity--;
+  obj->count++;
 
   return true;
 }
 
 bool myCircularQueueDeQueue(MyCircularQueue* obj) {
-  if (obj->head == -1 || (obj->haed+1) % obj->size > obj->tail) return false;
+  if (obj->count == 0) return false;
 
   obj->head = (obj->head + 1) % obj->size;
-  obj->capacity++;
+  obj->count--;
 
   return true;
 
 }
 
 int myCircularQueueFront(MyCircularQueue* obj) {
-  return obj->arr[obj->head];
+  return obj->count != 0 ? obj->arr[obj->head] : -1;
 }
 
 int myCircularQueueRear(MyCircularQueue* obj) {
-  return obj->arr[obj->tail];
+  return obj->count != 0 ? obj->arr[obj->tail] : -1;
 }
 
 bool myCircularQueueIsEmpty(MyCircularQueue* obj) {
-  return obj->capacity == 0 ? true : false;
+  return obj->count == 0;
 }
 
 bool myCircularQueueIsFull(MyCircularQueue* obj) {
-  return obj->capacity == obj->size ? true : false;
+  return obj->count == obj->size;
 }
 
 void myCircularQueueFree(MyCircularQueue* obj) {
+  free (obj->arr);
   free (obj);
 }
 
@@ -87,8 +84,3 @@ void myCircularQueueFree(MyCircularQueue* obj) {
  * myCircularQueueFree(obj);
 */
 
-int main () {
-
- return 0;
-
-}
