@@ -1,0 +1,11 @@
+int numWaterBottles(int numBottles, int numExchange) {
+  int drink = numBottles;
+  int empty = numBottles;
+
+  while (empty/numExchange) {
+    drink += empty/numExchange;
+    empty = empty/numExchange + empty%numExchange;
+  }
+    
+  return drink;
+}
