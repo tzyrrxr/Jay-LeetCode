@@ -8,7 +8,10 @@
 // if sum of array is odd: (x is even and y is odd) or (x is odd and y is even). ==> x-y == odd
 int countPartitions(int* nums, int numsSize) {
   int sum = 0;
-  for (int i = 0; i < numsSize; i++) sum += nums[i];
+  {
+    int i = -1;
+    while (++i < numsSize) sum += nums[i];
+  }
 
   return (sum & 1) ? 0 : numsSize - 1;
 }
