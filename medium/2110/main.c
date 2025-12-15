@@ -1,20 +1,30 @@
 long long getDescentPeriods(int* prices, int pricesSize) {
-  int cnt = 0; 
-  int len = pricesSize;
+  long long cnt = 0; 
+  long long *stack = (long long*) malloc(pricesSize * sizeof(long long));
+  int top = -1;
+  int smoothDes = 1;
 
-  // brute force
-  for (int i = 0; i < len; i++) {
-    for (int j = i; j < len-1; j++) {
-      if (j == i) cnt++; // itself
-      if (prices[j]-1 == prices[j+1]) {
-        cnt++;
-      } else {
-        break;
-      }
+  // counting as long as possible
+  for (int i = 0; i < pricesSize-1; i++) {
+    if (prices[i] - 1 == prices[i+1]) {
+      smoothDes++;
+    } else {
+      stack[++top] = smoothDes;
+      smoothDes = 1;
     }
   }
 
-  cnt++; // the last one
+  stack[++top] = smoothDes; // the last one
+
+  // summation
+  while (top >= 0) {
+    for (int i = 1; i <= stack[top]; i++) {
+      cnt = cnt + i;
+    }
+    top--;
+  }
+  
+  free(stack);
          
   return cnt;
 
