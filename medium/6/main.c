@@ -21,51 +21,23 @@ char* convert(char* s, int numRows) {
 
   char* ret = (char*) malloc((len+1)*sizeof(char));
   int retPt = 0;
-  int i = 0;
-
   int pt = 0;
-  while (pt < len) {
-    ret[retPt] = s[pt];
-    retPt++;
-    if (r < 2) {
-      pt++;
-    } else {
-      if (pt + (2*r-2) == pt) {
-        break;
-      }
-      pt = pt + (2*r-2);
-    }
+  int gap = 2*r - 2; // bar |
+  int mid = 0; // diagonal
+
+  if (len <= r || r == 1) {
+    strncpy (ret, s, len);
+    ret[len] = '\0';
+    return ret;
   }
 
-
-  if (r > 1) {
-    for (i = 1; i < r-1; i++) {
-     pt = i;
-     while (pt < len) {
-       ret[retPt] = s[pt];
-       retPt++;
-       if (pt + (2*r-2-i*2) == pt || pt + (2*r-2-i*2) >= len) {
-         break;
-       }
-       pt = pt + (2*r-2-i*2);
-       ret[retPt] = s[pt];
-       retPt++;
-       if (pt + (i*2) == pt || pt + (i*2) >= len) {
-         break;
-       }
-       pt = pt + (i*2);
-     }
-
-    }
-
-    pt = i;
-    while (pt < len) {
-      ret[retPt] = s[pt];
-      retPt++;
-      if (pt + (2*r-2) == pt) {
-        break;
+  for (int row = 0; row < r; row++) { // | | |
+    for (int i = row; i < len; i+=gap) { // ----
+      ret[retPt++] = s[i];
+      mid = i + gap - 2*row;
+      if (mid < len && row > 0 && row < r-1) {
+        ret[retPt++] = s[mid];
       }
-      pt = pt + (2*r-2);
     }
   }
 
