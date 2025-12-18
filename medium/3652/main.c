@@ -2,10 +2,13 @@ long long maxProfit(int* prices, int pricesSize, int* strategy, int strategySize
   long long max = -1e18; // -1e18 is double percision
   long long sum = 0;
   long long base = 0;
+  long long mem;
 
   for (int i = 0; i < pricesSize; i++) base += prices[i] * strategy[i]; 
+  if (max < base) max = base;
 
-  for (int i = 0; i+k < pricesSize; i++) {
+  mem = base;
+  for (int i = 0; i+k <= pricesSize; i++) {
     // the first half --> strategy to hold (0)
     for (int j = i; j < i+k/2; j++) {
       if (strategy[j] != 0) {
@@ -24,6 +27,7 @@ long long maxProfit(int* prices, int pricesSize, int* strategy, int strategySize
     }
 
     if (max < base) max = base;
+    base = mem;
 
   }
 
