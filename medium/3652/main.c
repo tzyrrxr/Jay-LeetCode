@@ -1,4 +1,4 @@
-// presum method
+// prefix sum method
 long long maxProfit(int* prices, int pricesSize, int* strategy, int strategySize, int k) {
   long long max = -1e18; // -1e18 is double percision
   long long *profitSum = (long long *) calloc(pricesSize+1, sizeof(long long));
