@@ -1,35 +1,25 @@
-int CMP (const void *a, const void *b) {
-  return *(int*)b - *(int*)a;
-}
-
 /**
  * Note: The returned array must be malloced, assume caller calls free().
  */
 int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize) {
   int *res = (int*) malloc(nums1Size*sizeof(int));
-  int *hash = (int*) calloc(10001, sizeof(int));
-  int *sorted = (int*) malloc(nums2Size*sizeof(int));
+  int *nextGreater = (int*) malloc(10001*sizeof(int)); // hash table for the index of number contain the next greater element
+  int stack[nums2Size];
+  int top = -1;
 
-  memset(res, -1, nums1Size*sizeof(int));
-  memcpy(sorted, nums2, nums2Size*sizeof(int));
-  qsort(sorted, nums2Size, sizeof(int), CMP);
+  memset(nextGreater, -1, 10001*sizeof(int));
 
   for (int i = 0; i < nums2Size; i++) {
-    hash[nums2[i]] = i;
-  }
-
-  for (int i = 0; i < nums1Size; i++) {
-    int elementIndex = hash[nums1[i]];
-    for (int j = 0, nearest = INT_MAX; sorted[j] > nums1[i]; j++) {
-      if (hash[sorted[j]] > elementIndex && hash[sorted[j]] - elementIndex < nearest) {
-        res[i] = sorted[j];
-        nearest = hash[sorted[j]] - elementIndex;
-      }
+    int currVal = nums2[i];
+    while (top > -1 && stack[top] < currVal) {
+      nextGreater[stack[top--]] = currVal; 
     }
+    stack[++top] = currVal;
   }
 
-  free(hash);
-  free(sorted);
+  for (int i = 0; i < nums1Size; i++) res[i] = nextGreater[nums1[i]];
+
+  free(nextGreater);
 
   *returnSize = nums1Size;
   return res;
