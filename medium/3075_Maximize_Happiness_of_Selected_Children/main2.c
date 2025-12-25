@@ -7,7 +7,9 @@ long long maximumHappinessSum(int* happiness, int happinessSize, int k) {
 
   qsort (happiness, happinessSize, sizeof(int), CMP);
 
-  for (int i = 0, turn = 0, val = 0; i < happinessSize && 0 < k && 0 < (val = happiness[i]-turn); i++, k--, turn++) {
+  for (int i = 0, turn = 0, val = 0; 
+    i < k && 0 < (val = happiness[i]-turn); // Index i is alwasy less than k. happiness[i]-turn is first assign to val, then val is compared to 0.  
+    i++, turn++) {
     max += (long long)val;
   }
     
