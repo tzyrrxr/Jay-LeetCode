@@ -3,16 +3,12 @@ int bestClosingTime(char* customers) {
   int min = INT_MAX;
   int len = strlen (customers);
   int Penalty = 0;
+  int closedDayPenalty = 0;
 
-  for (int i = 0; i < len; i++) {
-    if (customers[i] == 'Y') Penalty++; // Closed day penalty
-  }
-
-  min = Penalty;
-  res = 0;
-  for (int i = 0; i < len; i++) {
+  for (int i = 0, closedDayPenalty = 0; i < len; i++) {
     if (customers[i] == 'Y') {
       Penalty--;
+      closedDayPenalty++;
     } else {
       Penalty++;
     }
@@ -22,6 +18,10 @@ int bestClosingTime(char* customers) {
       res = i+1;
     }
 
+  }
+
+  if (min >= closedDayPenalty) {
+    return 0;
   }
 
   return res;
