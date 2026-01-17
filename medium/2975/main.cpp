@@ -21,7 +21,7 @@ public:
       }
 
       for (int i = 0; i < vFences.size(); i++) {
-        for (int j = i+1; j < vFences.size(); j++) {
+        for (int j  i+1; j < vFences.size(); j++) {
           vDiffs.push_back(vFences[j] - vFences[i]);
         }
       }
