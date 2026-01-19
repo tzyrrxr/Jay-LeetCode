@@ -22,10 +22,15 @@ int maxSideLength(int** mat, int matSize, int* matColSize, int threshold) {
                             - planSums[i][j-currentSide] 
                             + planSums[i-currentSide][j-currentSide];
         if (squareSideSum <= threshold) {
-          res++;
+          res = currentSide;
         }
       }
     }
+  }
+
+  // free memory
+  for (int i = 0; i <= matSize; i++) {
+    free(planSums[i]);
   }
   free(planSums);
     
