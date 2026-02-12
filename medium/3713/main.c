@@ -2,27 +2,30 @@
 
 int longestBalanced(char* s) {
   int n = strlen(s);
-  int max = 1;
-  int *hash = (int*) malloc(26*sizeof(int));
+  int maxLen = 1;
+  int *freq = (int*) malloc(26*sizeof(int));
 
   for (int i = 0; i < n; i++) {
-    memset(hash, 0, 26*sizeof(int));
-    int pre = s[i] - 'a';
+    memset(freq, 0, 26*sizeof(int));
+    int distinct = 0;
+    int maxFreq = 0;
 
     for (int j = i; j < n; j++) {
+      int len = j-i+1;
       int curr = s[j] - 'a';
-      hash[curr]++;
 
-      if (hash[curr] == hash[pre]) {
-        int verify = i;
-        while (verify <= j && hash[curr] == hash[s[verify++]-'a']);
-        if (verify-1 == j) {
-          max = fmax(max, j-i+1);
-        }
+      if (freq[curr] == 0) distinct++;
+      freq[curr]++;
+      maxFreq = fmax(maxFreq, freq[curr]);
+
+
+      if (maxFreq * distinct == len && len > maxLen) {
+        maxLen = len;
       }
+
     }
   }
     
-  return max;
+  return maxLen;
 
 }
