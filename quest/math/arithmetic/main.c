@@ -15,22 +15,26 @@ bool canMakeArithmeticProgression(int* arr, int arrSize) {
   d = (max-min) / (n-1);
   if (d == 0) return false;
 
-  bool *visited = (bool*) calloc(n, sizeof(bool));
-  int index;
-  for (int i = 0; i < n; i++) {
-    if ((arr[i]-min) % d) {
-      res = false;
-      break;
-    }
-    index = (arr[i]-min)/d;
-    if (index >= n || visited[index]) {
-      res = false;
-      break;
-    }
-    visited[index] = true;
-  }
+  int base = min;
 
-  free(visited);
+  // cyclic sort
+  for (int i = 0; i < n; ) {
+    if (arr[i] == d*i + base) {
+      i++;
+    } else {
+      int num = arr[i] - base;
+      int index = num / d;
+
+      if (num %d != 0 || index >= n || arr[i] == arr[index]) {
+        res = false;
+        break;
+      }
+
+      int tmp = arr[i];
+      arr[i] = arr[index];
+      arr[index] = tmp;
+    }
+  }
 
   return res;
     
