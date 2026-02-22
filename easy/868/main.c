@@ -10,9 +10,7 @@ int binaryGap(int n) {
     n >>= 1;
     cnt++;
     if (n&1) {
-      if (cnt > max) {
-        max = cnt;
-      }
+      max = (cnt > max) ? cnt: max;
       cnt = 0;
     }
   }
