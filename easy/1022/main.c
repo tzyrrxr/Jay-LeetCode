@@ -1,18 +1,12 @@
-typedef struct TreeNode* NODE;
-
-void DFS (NODE root, int val, int *sum) {
-  if (!root) {
-    return;
-  }
-  val <<= 1;
-  val += root->val;
+int DFS (struct TreeNode* root, int val) {
+  if (!root) return 0;
+  val = val*2 + root->val;
 
   if (!root->left && !root->right) {
-    *sum += val;
-  } else {
-    DFS(root->left, val, sum);
-    DFS(root->right, val, sum);
-  }
+    return val;
+  } 
+
+  return DFS(root->left, val) + DFS(root->right, val);
 
 }
 
@@ -25,7 +19,5 @@ void DFS (NODE root, int val, int *sum) {
  * };
  */
 int sumRootToLeaf(struct TreeNode* root) {
-  int sum = 0;
-  DFS(root, 0, &sum);
-  return sum;
+  return DFS(root, 0);
 }
