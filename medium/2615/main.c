@@ -59,6 +59,10 @@ long long* distance(int* nums, int numsSize, int* returnSize) {
       arr[p->val[i]] = total - 2*(leftVal) - (long long)p->val[i] * (p->count - i*2);
       leftVal += p->val[i];
     }
+    // free memory
+    HASH_DEL(hash, p);
+    free(p->val);
+    free(p);
 
   }
     
