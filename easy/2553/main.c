@@ -20,7 +20,10 @@ int* separateDigits(int* nums, int numsSize, int* returnSize) {
     }
 
     *returnSize = max -1 - pt;
+    int *ret2 = (int*) malloc(*returnSize*sizeof(int));
+    memcpy(ret2, ret+pt+1, *returnSize*sizeof(int));
+    free(ret);
 
-    return ret + pt + 1;
+    return ret2;
     
 }
