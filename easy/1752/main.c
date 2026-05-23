@@ -3,11 +3,11 @@ bool check(int* nums, int numsSize) {
 
     for (int i = 0; i < numsSize; i++) {
         if(nums[i] > nums[(i+1)%numsSize]) {
-            critical++;
+            if (++critical > 1) {
+                return false;
+            }
         }
     }
-
-    if (critical > 1) return false;
 
     return true;
 }
