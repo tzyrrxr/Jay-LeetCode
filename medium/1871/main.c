@@ -11,20 +11,23 @@ bool canReach(char* s, int minJump, int maxJump) {
   for (int i = 1; i < len; i++) {
     int l = i - maxJump;
     int r = i - minJump;
-    if (0 <= r) {
-      if (reach[r]) {
-        count++;
-      }
-      if (0 <= l-1 && reach[l-1]) {
-        count--;
-      }
+
+    // enter
+    if (0 <= r && reach[r]) {
+      count++;
     }
+
+    // leave
+    if (0 <= l-1 && reach[l-1]) {
+      count--;
+    }
+
     if(count && '0' == s[i]) {
       reach[i] = true;
     }
   }
 
-  ret = (true == reach[len-1]);
+  ret = reach[len-1];
   free(reach);
     
   return ret;
