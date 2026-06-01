@@ -3,21 +3,10 @@ int CMP (const void *a, const void *b) {
 }
 int minimumCost(int* cost, int costSize) {
  int ret = 0;
- if (costSize <= 2) {
-   while (costSize) {
-     ret += cost[costSize-1];
-     costSize--;
-   }
-   return ret;
- }
  qsort (cost, costSize, sizeof(int), CMP);
- for (int i = 0, pt = 0; i < costSize; i++) {
-   if (pt == 2) {
-     pt = 0;
-     continue;
-   } else {
+ for (int i = 0; i < costSize; i++) {
+   if ((i +1)% 3 != 0) {
      ret += cost[i];
-     pt++;
    }
  }
 
