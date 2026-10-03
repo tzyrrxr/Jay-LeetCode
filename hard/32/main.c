@@ -1,28 +1,23 @@
 int longestValidParentheses(char* s) {
+    if (!s || !strlen(s))
+        return 0;
+
     int len = strlen(s);
     int ret = 0;
     int pt = -1;
-    char *stack = (char*) malloc(sizeof(char) * len);
+    int *stack = (int*) malloc(sizeof(int) * (len + 1));
+    stack[++pt] = -1;
 
     for (int i = 0; i < len; i++) {
-        int cnt = 0;
-        pt = -1;
-        for (int j = i; j < len; j++)
+        if(s[i] == '(')
         {
-            if (s[j] == '(')
-            {
-                stack[++pt] = s[j];
-            }
-            else if (pt > -1 && s[j] == ')')
-            {
-                pt--;
-                cnt += 2;
-                if (cnt > ret && pt == -1)
-                    ret = cnt;
-            }
-            else
-            {
-                break;
+            stack[++pt] = i;
+        } else {
+            pt--;
+            if (pt < 0) {
+                stack[++pt] = i;
+            } else if (ret < i - stack[pt]) {
+                ret = i - stack[pt];
             }
         }
     }
